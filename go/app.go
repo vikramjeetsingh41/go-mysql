@@ -3,15 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com:vikramjeetsingh41/go-mysql/go/dao"
-	"github.com:vikramjeetsingh41/go-mysql/go/service"
+	"go-mysql/go/dao"
+	"go-mysql/go/service"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-// Users struct
 type Users []User
 
 // User struct
@@ -30,18 +29,19 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// w.WriteHeader(http.StatusCreated)
 	// json.NewEncoder(w).Encode(m)
 
-	// users := Users{
-	// 	User{firstName: "vikram", lastName: "singh"},
-	// 	User{firstName: "rocky", lastName: "jeet"},
-	// }
+	// ADD USER
 
-	//openDbConnection()
+	dao.InitializeMySQL()
 
-	student, err := service.AddUser("vikram", "test@test.ocm", 35)
+	name := "JohnDoe"
+	email := "john@test.com"
+	age := int8(12)
+
+	user, err := service.AddUser(name, email, age)
 	if err != nil {
-		fmt.Println("Adding Student Failed With Error : ", err.Error())
+		fmt.Println("Adding User Failed With Error : ", err.Error())
 	} else {
-		fmt.Println("Added Student Successfully : ", student)
+		fmt.Println("Added User Successfully : ", user)
 	}
 
 	characters := Users{
@@ -65,9 +65,6 @@ func ArticlesCategoryHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	dao.InitializeMySQL()
-
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", HomeHandler)
 	router.HandleFunc("/articles", articlesHandler).Methods("GET")

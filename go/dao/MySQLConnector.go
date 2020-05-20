@@ -2,7 +2,7 @@ package dao
 
 import (
 	// go
-	_ "database/sql"
+	. "database/sql"
 	"fmt"
 	"time"
 

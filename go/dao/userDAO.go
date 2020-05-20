@@ -2,18 +2,18 @@ package dao
 
 import (
 	"database/sql"
-	"src/learn-go/src/model"
+	"go-mysql/go/model"
 )
 
 // AddUser method
-func AddUser(student model.User) (int64, int64, error) {
-	sqlQuery := "INSERT user SET name = ?, email = ?, age = ?"
+func AddUser(user model.User) (int64, int64, error) {
+	sqlQuery := "INSERT users SET name = ?, email = ?, age = ?"
 	stmt, err := GetMySQLConnection().Prepare(sqlQuery)
 	defer closeStmt(stmt)
 	if err != nil {
 		return 0, 0, err
 	}
-	res, err := stmt.Exec(student.Name, student.Age)
+	res, err := stmt.Exec(user.Name, user.Email, user.Age)
 	if err != nil {
 		return 0, 0, err
 	}

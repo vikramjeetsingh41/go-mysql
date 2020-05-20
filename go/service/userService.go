@@ -1,8 +1,8 @@
 package service
 
 import (
-	"learn-go/src/dao"
-	"learn-go/src/model"
+	"go-mysql/go/dao"
+	"go-mysql/go/model"
 )
 
 // AddUser method
@@ -10,7 +10,7 @@ func AddUser(name string, email string, age int8) (model.User, error) {
 	user := model.User{Name: name, Email: email, Age: age}
 	rowsAffected, lastInsertedId, err := dao.AddUser(user)
 	if err == nil && rowsAffected > 0 {
-		user.id = lastInsertedId
+		user.ID = lastInsertedId
 	}
 	return user, err
 }
