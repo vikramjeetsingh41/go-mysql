@@ -1,40 +1,45 @@
 package service
 
 import (
+	"errors"
 	"go-mysql/go/dao"
 	"go-mysql/go/model"
 )
 
+func GetUsers() (model.Users, error) {
+	return dao.GetUsers()
+}
+
+func GetUser(userId int64) (model.User, error) {
+	return dao.GetUser(userId)
+}
+
 // AddUser method
-func AddUser(name string, email string, age int8) (model.User, error) {
-	user := model.User{Name: name, Email: email, Age: age}
+func AddUser(name string, age int8) (model.User, error) {
+	user := model.User{Name: name, Age: age}
 	rowsAffected, lastInsertedId, err := dao.AddUser(user)
 	if err == nil && rowsAffected > 0 {
-		user.ID = lastInsertedId
+		user.UserID = lastInsertedId
 	}
 	return user, err
 }
 
-// func UpdateStudent(id int64, name string, age int8) (model.Student, error) {
-// 	student := model.Student{StudentID:id, Name:name, Age:age}
-// 	rowsAffected, err := dao.UpdateStudent(student)
-// 	if err == nil && rowsAffected == 0 {
-// 		err = errors.New("No Data Found")
-// 	}
-// 	return student, err
-// }
+func UpdateUser(id int64, name string, age int8, status string) (model.User, error) {
+	user := model.User{UserID: id, Name: name, Age: age, Status: status}
+	rowsAffected, err := dao.UpdateUser(user)
+	if err == nil && rowsAffected == 0 {
+		err = errors.New("No Data Found")
+	}
+	return user, err
+}
 
-// func DeleteStudent(studentID int64) (bool, error) {
-// 	rowsAffected, err := dao.DeleteStudent(studentID)
-// 	if err == nil && rowsAffected == 0 {
-// 		err = errors.New("No Data Found")
-// 	}
-// 	if err != nil {
-// 		return false, err
-// 	}
-// 	return true, err
-// }
-
-// func GetStudent(studentID int64) (model.Student, error) {
-// 	return dao.GetStudent(studentID)
-// }
+func DeleteUser(userId int64) (bool, error) {
+	rowsAffected, err := dao.DeleteUser(userId)
+	if err == nil && rowsAffected == 0 {
+		err = errors.New("No Data Found")
+	}
+	if err != nil {
+		return false, err
+	}
+	return true, err
+}

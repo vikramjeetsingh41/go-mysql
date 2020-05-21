@@ -2,8 +2,10 @@ package model
 
 // User struct
 type User struct {
-	ID    int64
-	Name  string
-	Email string
-	Age   int8
+	UserID int64
+	Name   string
+	Age    int8
+	Status string
 }
+
+type Users []User
